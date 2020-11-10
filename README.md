@@ -12,15 +12,15 @@
     - [II. Installation de Wordpress](###ii-installation-de-wordpress)
     - [III. Iptables](###iii-iptables)
 - [Serveur Base de données](##Serveur-base-de-données)
-    - [I. Installation du serveur MySql](###i-installation-du-serveur-mysql)
-    - [II. Création de la base de données wordpress](###ii-création-de-la-base-de-données-wordpress)
+    - [I. Installation du serveur MySQL](###i-installation-du-serveur-mysql)
+    - [II. Création de la base de données Wordpress](###ii-création-de-la-base-de-données-wordpress)
     - [III. Nftables](###iii-nftables)
 - [Firewall pfSense frontal](##Firewall-pfSense-frontal)
 - [Démonstration](##Démonstration)
 
 ## Serveur Web 
 
-OS : Centos 7 (Réseau Privé Hôte pour avoir l'IP fixe, qu'on reconfig aussi dans ``/etc/sysconfig/network-scripts/ifcfg-enp0s8``)
+OS : Centos 7 (Réseau Privé Hôte pour avoir l'IP fixe, qu'on reconfigure aussi dans ``/etc/sysconfig/network-scripts/ifcfg-enp0s8``)
 
 
 ###  I. Installation de Apache 
@@ -35,22 +35,19 @@ Ensuite on peut démarrer le serveur httpd :
 sudo systemctl start httpd
 sudo systemctl enable httpd
 ```
-On peut vérifier son status :
+On peut vérifier son statut :
 
 ![](img/httpd.png)
 
-> Le service est bien démarré. Il suffit de se rendre sur internet pour vérifier notre page en allant sur l'adresse IP de notre machine : http://192.168.43.89 
+Le service est bien **démarré**. Il suffit de se rendre sur internet pour vérifier notre page en allant sur l'adresse IP de notre machine : http://192.168.33.2 
 
 ![](img/page_apache.png)
 
 ### II. Installation de Wordpress 
 
+Pour l'installation de Wordpress, il faut avoir préalablement PHP d'installé avec une version **supérieure à 5.6** pour que ce soit fonctionnel.
 
-
-
-Pour l'installation de wordpress, avoir préalablement PHP d'installer avec une version **supérieure à 5.6** pour que ce soit fonctionnelle.
-
-- Téléchargement et installation de wordpress :
+- Téléchargement et installation de Wordpress :
 
 ```
 cd ~
@@ -61,7 +58,7 @@ mkdir /var/www/html/wp-content/uploads
 sudo chown -R apache:apache /var/www/html/*
 ```
 
-- Configuration de la base de donnée pour wordpress :
+- Configuration de la base de donnée pour Wordpress :
 
 ```
 cd /var/www/html    
@@ -69,18 +66,15 @@ cp wp-config-sample.php wp-config.php
 vim wp-config.php
 ```
 
-Fichier de conf (remplacer par les infos correspondantes):
+Fichier de configuration (à remplacer par les informations correspondantes):
 
 ![](img/wpconfig.png)
 
-Apache ne lis pas les fichiers PHP par défault, donc dans le fichier (``vi /etc/httpd/conf/httpd.conf``), il faut ajouter à Directory index :
+Apache ne lit pas les fichiers PHP par défaut, donc dans le fichier (``vi /etc/httpd/conf/httpd.conf``), il faut ajouter à ``Directory index`` :
 
 ``index.php``
 
-On redémarre le serveur Httpd (``sudo service httpd restart``), et on remarque que le Wordpress est mis en place. 
-
-
-
+On redémarre le serveur ``httpd`` (``sudo service httpd restart``), et on remarque que le Wordpress est mis en place. 
 
 
 ### III. Iptables
@@ -174,14 +168,11 @@ Pour check
 
     sudo iptables -L
 
-
-
-
 ## Serveur base de données 
 
-Le serveur de base de données devra être positionné sur un réseau dédié comme indiqué sur le schéma, et disposer d’une adresse IP fixe. Il fonctionnera sous **Centos 8**, et hébergera via un serveur **mysql** la base de données du site Wordpress.
+Le serveur de base de données devra être positionné sur un réseau dédié comme indiqué sur le schéma, et disposer d’une adresse IP fixe. Il fonctionnera sous **Centos 8**, et hébergera via un serveur **MySQL** la base de données du site Wordpress.
 
-### I. Installation du serveur MySql
+### I. Installation du serveur MySQL
 
 ```
 sudo dnf install mysql-server
@@ -189,19 +180,19 @@ sudo systemctl start mysqld.service
 sudo systemctl enable mysqld.service
 ```
 
-On peut vérifier ensuite l'installation par un status :
+On peut vérifier ensuite l'installation :
 
 ![](img/mysql-server.png)
 
 
 
-### II. Création de la base de données wordpress 
+### II. Création de la base de données Wordpress 
 
 ```
 CREATE DATABASE wordpress;
 ```
 
-- Création d'un utilisateur admin et ajout de privilèges :
+- Création d'un utilisateur ``admin`` et ajout de privilèges :
 
 ```
 CREATE USER 'adminuser'@'localhost' IDENTIFIED BY 'toortoor';
@@ -209,7 +200,7 @@ GRANT ALL PRIVILEGES ON wordpress. * TO 'adminuser'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-- Ajoute l'utilisateur avec l'adresse de remote :
+- Ajoutez l'utilisateur avec l'adresse de ``remote`` :
 
 ```
 CREATE USER 'adminuser'@'192.168.33.2' IDENTIFIED BY 'toortoor';
@@ -217,7 +208,7 @@ GRANT ALL PRIVILEGES ON wordpress. * TO 'adminuser'@'192.168.33.2';
 FLUSH PRIVILEGES;
 ```
 
-- Puis dans /etc/my.cnf, on ajoute le bind adrress (ip de notre database):
+- Puis dans ``/etc/my.cnf``, on ajoute le ``bind adrress`` (l'ip de notre database):
 
 ```
 bind-address=192.168.35.4
@@ -269,16 +260,23 @@ Dans leurs IPs, on doit définir la Gateway pour les relier :
 
 ![](img/pfsense_interface.png)
 
-Les règles WAN, pour avoir accès à Internet sur le serveur Web :
+Les règles WAN :
 
 ![](img/rule_wan.png)
 
-Les règles ajoutées sur l'interface Web :
+Les règles Web :
 
 ![](img/pfsenseweb.png)
+
+Les règles BDD : 
+
+![](img/pfsense_bdd.png)
 
 ## Démonstration
 
 Le serveur Web peut se connecter à MySql sur le serveur base de données après la mise en place des règles de filtrage : 
 
 ![](img/bdd_OK.png)
+
+
+
