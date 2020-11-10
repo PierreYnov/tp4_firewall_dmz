@@ -231,8 +231,12 @@ On va dans ``/etc/sysconfig/nftables.conf`` et on met
                     type filter hook input priority 0;
                     iifname lo accept;
                     ip protocol icmp accept;
-                    tcp dport ssh accept;
-                    tcp dport 3306 accept;
+                    tcp dport 80 accept;
+                    tcp dport 443 accept;
+                    tcp dport 53 accept;
+                    udp dport 53 accept;
+                    tcp dport ssh ip saddr 192.168.211.15/24 accept;
+                    tcp dport 3306 ip saddr 192.168.33.2/24 accept;
                     policy drop;
             }
             chain forward {
@@ -241,8 +245,12 @@ On va dans ``/etc/sysconfig/nftables.conf`` et on met
             }
             chain output {
                     type filter hook output priority 0;
-                    tcp sport 3306 accept;
-                    tcp sport ssh accept;
+                    tcp sport 80 accpet;
+                    tcp sport 443 accept;
+                    tcp sport 53 accept;
+                    udp sport 53 accept;
+                    tcp sport 3306 ip daddr 192.168.33.2/24 accept;
+                    tcp sport ssh ip daddr 192.168.33.2/24 accept;
                     policy drop;
             }
     }
