@@ -272,11 +272,11 @@ Les règles WAN :
 
 ![](img/rule_wan.png)
 
-Les règles Web :
+Les règles sur le serveur Web :
 
 ![](img/pfsenseweb.png)
 
-Les règles BDD : 
+Les règles sur le serveur de BDD : 
 
 ![](img/pfsense_bdd.png)
 
@@ -287,6 +287,14 @@ Installation classique de pfSense puis on configure sur le panel Web les interfa
 Dans leurs IPs, on doit définir la Gateway pour les relier :
 
 ![](img/pfsense_inter2.png)
+
+Les règles sur les postes de travail :
+
+![](img/travail.png)
+
+Les règles sur les informaticiens :
+
+![](img/pf_info.png)
 
 ## Démonstration
 
