@@ -280,6 +280,14 @@ Les règles BDD :
 
 ![](img/pfsense_bdd.png)
 
+## Firewall pfSense back
+
+Installation classique de pfSense puis on configure sur le panel Web les interfaces du poste de travail et des informaticiens.
+
+Dans leurs IPs, on doit définir la Gateway pour les relier :
+
+![](img/pfsense_inter2.png)
+
 ## Démonstration
 
 Le serveur Web peut se connecter à MySql sur le serveur base de données après la mise en place des règles de filtrage : 
