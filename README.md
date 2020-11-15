@@ -298,7 +298,7 @@ Installation classique de pfSense puis on configure sur le panel Web les interfa
 Récapitulatif Ip :
 
 |   Interface   |        IP       |
-| ------------- |: -------------: |
+| ------------- |  -------------  |
 |     WAN       |    10.0.2.15    |
 |     LAN       |  192.168.56.56  |
 |  Server web   | 192.168.33.254  |
@@ -335,7 +335,7 @@ Installation classique de pfSense puis on configure sur le panel Web les interfa
 Récapitulatif Ip :
 
 |   Interface   |        IP       |
-| ------------- |: -------------: |
+| ------------- | -------------   |
 |     WAN       |    10.0.2.4     |
 |     LAN       |  192.168.56.11  |
 |  Poste info   | 192.168.211.254 |
