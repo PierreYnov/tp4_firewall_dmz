@@ -1,6 +1,8 @@
 # TP4 : Utilisation avancé du filtrage de paquets réseaux
 ## Construction d’une DMZ complexe
 
+## Classe : B3B
+## Elèves : Emma Durand **[@emmadrd912](https://github.com/emmadrd912)** et Pierre Ceberio **[@PierreYnov](https://github.com/PierreYnov)** 
 
 ![](https://i.gyazo.com/ffacc0d9f17f25c05104f4333be5885a.png)
 
